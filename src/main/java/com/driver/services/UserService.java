@@ -5,8 +5,7 @@ import com.driver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -14,15 +13,21 @@ public class UserService {
     UserRepository userRepository3;
 
     public User createUser(String username, String password){
-
+        User user = new User(username, password);
+        userRepository3.save(user);
+        return user;
 
     }
 
     public void deleteUser(int userId){
-
+        userRepository3.deleteById(userId);
     }
 
-    public User updateUser(Integer id, String password){
-
+    public Optional<User> updateUser(Integer id, String password){
+        Optional<User> optionlUser = userRepository3.findById(id);
+        User user = optionlUser.get();
+        user.setPassword(password) ;
+        userRepository3.save(user);
+        return optionlUser;
     }
 }
